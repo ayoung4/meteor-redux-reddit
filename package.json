@@ -7,12 +7,29 @@
   "dependencies": {
     "@babel/runtime": "^7.0.0-beta.36",
     "@types/meteor": "^1.4.13",
+    "faker": "^4.1.0",
+    "lodash": "^4.17.5",
     "meteor-node-stubs": "^0.3.2",
     "react": "^16.2.0",
-    "react-dom": "^16.2.0"
+    "react-dom": "^16.2.0",
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.2.2",
+    "react-router-redux": "^5.0.0-alpha.9",
+    "recompose": "^0.26.0",
+    "redux": "^3.7.2",
+    "semantic-ui-css": "^2.3.1",
+    "semantic-ui-react": "^0.79.0"
   },
   "devDependencies": {
+    "@types/faker": "^4.1.2",
+    "@types/lodash": "^4.14.106",
     "@types/react": "^16.0.40",
-    "@types/react-dom": "^16.0.4"
+    "@types/react-dom": "^16.0.4",
+    "@types/react-redux": "^5.0.15",
+    "@types/react-router-dom": "^4.2.5",
+    "@types/react-router-redux": "^5.0.12",
+    "@types/recompose": "^0.24.6",
+    "@types/redux": "^3.6.0",
+    "tslint": "^5.9.1"
   }
 }
