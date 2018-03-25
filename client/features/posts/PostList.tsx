@@ -1,13 +1,13 @@
 import * as React from 'react';
-import { Post } from './Post';
+import { Post, IPostProps } from './Post';
+import * as _ from 'lodash';
 
 export interface IPostListProps {
-    posts: IPost[];
-    getPosts: any;
+    postItems: IPostProps[];
 }
 
-export const PostList: React.SFC<IPostListProps> = ({ posts }) => (
+export const PostList: React.SFC<IPostListProps> = ({ postItems }) => (
     <div>
-        {posts.map((p) => Post(p))}
+        {_.map(postItems, (p) => Post(p))}
     </div>
 );

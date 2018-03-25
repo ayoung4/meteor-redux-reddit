@@ -17,6 +17,7 @@
     "react-router-redux": "^5.0.0-alpha.9",
     "recompose": "^0.26.0",
     "redux": "^3.7.2",
+    "reselect": "^3.0.1",
     "semantic-ui-css": "^2.3.1",
     "semantic-ui-react": "^0.79.0"
   },
@@ -30,6 +31,7 @@
     "@types/react-router-redux": "^5.0.12",
     "@types/recompose": "^0.24.6",
     "@types/redux": "^3.6.0",
+    "@types/reselect": "^2.2.0",
     "tslint": "^5.9.1"
   }
 }

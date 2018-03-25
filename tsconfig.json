@@ -8,6 +8,7 @@
     "baseUrl": ".",
     "paths": {
       "Features/*": ["client/features/*"],
+      "Scenes/*": ["client/scenes/*"],
       "Middleware/*": ["client/middleware/*"],
       "Lib/*": ["lib/*"],
       "Client/*": ["client/*"]

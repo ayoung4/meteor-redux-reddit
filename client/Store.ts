@@ -1,6 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { logger } from 'Middleware/logger';
 import { api } from 'Middleware/api';
+import { commentsReducer, ICommentState } from 'Features/comments/reducer';
 import { postsReducer, IPostsState } from 'Features/posts/reducer';
 import { ConnectedRouter, routerReducer, routerMiddleware, push, RouterState } from 'react-router-redux'
 
@@ -11,6 +12,7 @@ interface IRouterState extends RouterState {
 }
 
 export interface IStoreState {
+    comments: ICommentState;
     posts: IPostsState;
     router: {
         location: IRouterState;
@@ -19,6 +21,7 @@ export interface IStoreState {
 
 const rootReducer = combineReducers<IStoreState>({
     posts: postsReducer,
+    comments: commentsReducer,
     router: routerReducer,
 });
 

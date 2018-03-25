@@ -21,14 +21,24 @@ export const fetchPosts = (selector: Mongo.Selector = {}) => ({
 export const addPost = (title: string, text: string) => ({
     type: postActionTypes.ADD_POST,
     payload: {
-        text,
-        title,
+        args: {
+            title,
+            text,
+        },
+        err: (err: Error) => console.log(err),
+        methodName: 'posts.add',
+        success: fetchPosts,
     },
 });
 
 export const removePost = (_id: string) => ({
     type: postActionTypes.REMOVE_POST,
     payload: {
-        _id,
+        args: {
+            _id,
+        },
+        err: (err: Error) => console.log(err),
+        methodName: 'posts.remove',
+        success: fetchPosts,
     },
 });

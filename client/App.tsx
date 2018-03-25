@@ -1,31 +1,22 @@
 import * as React from 'react';
-import { PostListContainer } from 'Features/posts/PostListContainer';
-import { PostContainer } from 'Features/posts/PostContainer';
 import { Container, Header } from 'semantic-ui-react';
 import { Route } from 'react-router-dom';
 import createHistory from 'history/createBrowserHistory';
 import { ConnectedRouter, routerReducer, routerMiddleware } from 'react-router-redux';
+import { Home } from 'Scenes/Home';
+import { PostDetail } from 'Scenes/PostDetail';
+import { AddPost } from 'Scenes/AddPost';
 
 const history = createHistory();
 
 export const App = () => (
     <ConnectedRouter history={history}>
         <Container style={{ marginTop: '80px' }}>
-            <Header>Meteor Redux Reddit</Header>
-            <Route exact path='/' component={HomePage} />
-            <Route path='/post/:id' component={PostDetailPage} />
+            <Header style={{ marginBottom: '40px' }}>Meteor Redux Reddit</Header>
+            <Route exact path='/' component={Home} />
+            <Route path='/post/:id' component={PostDetail} />
+            <Route exact path='/add/post' component={AddPost} />
         </Container>
     </ConnectedRouter>
 );
 
-const HomePage = () => (
-    <div id="page">
-        <PostListContainer />
-    </div>
-);
-
-const PostDetailPage = () => (
-    <div id="page">
-        <PostContainer />
-    </div>
-);

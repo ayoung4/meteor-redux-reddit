@@ -1,5 +1,5 @@
 declare interface IPost {
-    _id?: string;
+    _id: string;
     title: string;
     text: string;
     created: Date;
@@ -7,7 +7,7 @@ declare interface IPost {
 }
 
 declare interface IComment {
-    _id?: string;
+    _id: string;
     text: string;
     created: Date;
     postId: string;

@@ -15,12 +15,12 @@ export module Posts {
         upVotes: _.random(10),
     });
 
-    export const insert = (title: string, text: string) => collection.insert({
+    export const insert = (title: string, text: string) => collection.insert(({
         title,
         text,
         created: new Date(),
         upVotes: 0,
-    });
+    }) as IPost);
 
     export const remove = (_id: string) => collection.remove(_id);
 
