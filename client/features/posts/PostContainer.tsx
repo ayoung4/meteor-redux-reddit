@@ -10,7 +10,7 @@ import { postById } from './selectors';
 
 import { IPostProps, Post } from './Post';
 
-interface IProps {
+interface IProps extends IPostProps {
     getPostById: (_id: string) => any;
 }
 
@@ -30,7 +30,7 @@ const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => ({
     getPostById: (_id: string) => dispatch(fetchPosts({ _id })),
 });
 
-const withPostData = lifecycle<IPostProps & IProps, {}>({
+const withPostData = lifecycle<IProps, {}>({
     componentDidMount() {
         this.props.getPostById(this.props._id);
     },
@@ -38,7 +38,7 @@ const withPostData = lifecycle<IPostProps & IProps, {}>({
 
 const isLoading = ({ text }) => !text;
 
-const enhanced = compose<IPostProps & IProps, IPostProps>(
+const enhanced = compose<IProps, IPostProps>(
     withPostData,
     withLoadingSegment(isLoading),
 )(Post);

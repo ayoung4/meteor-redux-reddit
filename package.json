@@ -16,11 +16,14 @@
     "react-redux": "^5.0.7",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
+    "react-semantic-redux-form": "^1.2.6",
     "recompose": "^0.26.0",
     "redux": "^3.7.2",
+    "redux-form": "^7.3.0",
     "reselect": "^3.0.1",
     "semantic-ui-css": "^2.3.1",
-    "semantic-ui-react": "^0.79.0"
+    "semantic-ui-react": "^0.79.0",
+    "simpl-schema": "^1.4.2"
   },
   "devDependencies": {
     "@types/chai": "^4.1.2",
@@ -34,6 +37,7 @@
     "@types/react-router-redux": "^5.0.12",
     "@types/recompose": "^0.24.6",
     "@types/redux": "^3.6.0",
+    "@types/redux-form": "^7.2.2",
     "@types/reselect": "^2.2.0",
     "chai": "^4.1.2",
     "mocha": "^5.0.5",

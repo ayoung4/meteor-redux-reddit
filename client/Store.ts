@@ -1,8 +1,9 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { reducer as formReducer} from 'redux-form';
 import { logger } from 'Middleware/logger';
 import { api } from 'Middleware/api';
-import { commentsReducer, ICommentState } from 'Features/comments/reducer';
 import { postsReducer, IPostsState } from 'Features/posts/reducer';
+import { commentsReducer, ICommentState } from 'Features/comments/reducer';
 import { mongoReducer } from './minimongo/reducers';
 import { ConnectedRouter, routerReducer, routerMiddleware, push, RouterState } from 'react-router-redux'
 
@@ -21,15 +22,13 @@ export interface IStoreState {
 }
 
 const rootReducer = combineReducers<IStoreState>({
-    posts: postsReducer,
     comments: commentsReducer,
+    form: formReducer,
     mongo: mongoReducer,
+    posts: postsReducer,
     router: routerReducer,
 });
 
 const middleWare = applyMiddleware(logger, api);
 
 export const store = createStore(rootReducer, middleWare);
-
-console.log(store.getState());
-
