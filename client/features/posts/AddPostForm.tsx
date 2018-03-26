@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Form, Button } from 'semantic-ui-react';
+import { Button, Form } from 'semantic-ui-react';
 
 export const AddPostForm: React.SFC<{}> = () => (
     <Form>

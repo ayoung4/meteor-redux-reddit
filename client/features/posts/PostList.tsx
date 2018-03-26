@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { Post, IPostProps } from './Post';
 import * as _ from 'lodash';
+import * as React from 'react';
+import { IPostProps, Post } from './Post';
 
 export interface IPostListProps {
     postItems: IPostProps[];

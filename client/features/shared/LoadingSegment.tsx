@@ -1,6 +1,6 @@
 import * as React from 'react';
-import { Segment, Dimmer, Loader, Image } from 'semantic-ui-react';
-import { branch, renderComponent, ComponentEnhancer } from 'recompose';
+import { branch, ComponentEnhancer, renderComponent } from 'recompose';
+import { Dimmer, Image, Loader, Segment } from 'semantic-ui-react';
 
 export const LoadingSegment = () => (
     <Segment>

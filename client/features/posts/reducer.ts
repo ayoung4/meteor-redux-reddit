@@ -1,5 +1,5 @@
-import { postActionTypes } from './constants';
 import { Reducer } from 'redux';
+import { postActionTypes } from './constants';
 
 export type IPostsState = IPost[];
 

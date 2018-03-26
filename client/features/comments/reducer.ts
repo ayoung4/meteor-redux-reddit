@@ -1,5 +1,5 @@
-import { commentActionTypes } from './constants';
 import { Reducer } from 'redux';
+import { commentActionTypes } from './constants';
 
 export type ICommentState = IComment[];
 

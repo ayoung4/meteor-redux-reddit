@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { Post, IPostProps } from './Post';
-import { fetchPosts } from './actions';
 import { IStoreState } from 'Client/Store';
-import { Dispatch } from 'redux';
+import { commentsByPostId } from 'Features/comments/selectors';
+import { withLoadingSegment } from 'Features/shared/LoadingSegment';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { branch, compose, lifecycle, renderComponent } from 'recompose';
-import { withLoadingSegment } from 'Features/shared/LoadingSegment'
+import { Dispatch } from 'redux';
+import { fetchPosts } from './actions';
 import { postById } from './selectors';
-import { commentsByPostId } from 'Features/comments/selectors';
+
+import { IPostProps, Post } from './Post';
 
 interface IProps {
     getPostById: (_id: string) => any;
@@ -18,10 +19,10 @@ const mapStateToProps = (state: IStoreState) => {
     const { created, title, text } = postById(state, _id);
     return {
         _id,
-        created,
-        title,
-        text,
         commentCount: commentsByPostId(state, _id).length,
+        created,
+        text,
+        title,
     };
 };
 

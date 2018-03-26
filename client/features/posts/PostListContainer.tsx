@@ -1,24 +1,25 @@
-import { PostList, IPostListProps } from './PostList';
-import { fetchPosts } from './actions';
 import { IStoreState } from 'Client/Store';
-import { Dispatch } from 'redux';
+import { commentsByPostId } from 'Features/comments/selectors';
+import { withLoadingSegment } from 'Features/shared/LoadingSegment';
+import * as _ from 'lodash';
 import { connect } from 'react-redux';
 import { branch, compose, lifecycle, renderComponent } from 'recompose';
-import { withLoadingSegment } from 'Features/shared/LoadingSegment'
-import { commentsByPostId } from 'Features/comments/selectors';
-import * as _ from 'lodash';
+import { Dispatch } from 'redux';
+import { fetchPosts } from './actions';
+
+import { IPostListProps, PostList } from './PostList';
 
 type IProps = IPostListProps & {
     getPosts: any;
-}
+};
 
 const mapStateToProps = (state: IStoreState) => ({
     postItems: _.map(state.posts, ({ _id, created, title, text }) => ({
         _id,
-        created,
-        title,
-        text,
         commentCount: commentsByPostId(state, _id).length,
+        created,
+        text,
+        title,
     })),
 });
 

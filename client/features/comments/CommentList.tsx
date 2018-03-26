@@ -1,6 +1,6 @@
+import * as _ from 'lodash';
 import * as React from 'react';
 import { Divider, Feed } from 'semantic-ui-react';
-import * as _ from 'lodash';
 
 export interface ICommentListProps {
     comments: IComment[];
@@ -19,8 +19,8 @@ export const CommentList: React.SFC<IComment[]> = (comments) => (
             {!!comments && comments.length ? 'comments' : 'no comments to display'}
         </Divider>
         <Feed events={_.map(comments, ({created, text}) => ({
-            image: 'https://react.semantic-ui.com/assets/images/avatar/small/elliot.jpg',
             date: created.toDateString(),
+            image: 'https://react.semantic-ui.com/assets/images/avatar/small/elliot.jpg',
             summary: text,
         }))}></Feed>
     </div>

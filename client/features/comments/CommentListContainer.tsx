@@ -1,10 +1,11 @@
-import { CommentList, ICommentListProps } from './CommentList';
-import { fetchComments } from './actions';
 import { IStoreState } from 'Client/Store';
-import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
-import { branch, compose, lifecycle, renderComponent } from 'recompose';
+import { compose, lifecycle } from 'recompose';
+import { Dispatch } from 'redux';
+import { fetchComments } from './actions';
 import { commentsByPostId } from './selectors';
+
+import { CommentList, ICommentListProps } from './CommentList';
 
 interface IProps {
     postId: string;
@@ -15,11 +16,10 @@ interface IProps {
 const mapStateToProps = (state: IStoreState) => {
     const postId = state.router.location.pathname.split('/')[2];
     return {
-        postId, 
         comments: commentsByPostId(state, postId),
-    }
+        postId, 
+    };
 };
-
 
 const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => ({
     getComments: (postId: string) => dispatch(fetchComments({ postId })),
