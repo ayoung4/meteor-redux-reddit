@@ -23,4 +23,8 @@ Meteor.startup(() => {
             );
         });
     });
+
+    Meteor.publish('users.logged-in', function () {
+        return Meteor.users.find({ _id: this.userId || '' });
+    });
 });

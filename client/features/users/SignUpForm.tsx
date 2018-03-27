@@ -3,17 +3,18 @@ import { InputField } from 'react-semantic-redux-form';
 import { Field, InjectedFormProps } from 'redux-form';
 import { Button, Dimmer, Form, Loader } from 'semantic-ui-react';
 
-export interface ILoginFormData {
+export interface ISignUpFormData {
     username: string;
     password: string;
+    repeatPassword: string;
 }
 
-export interface ILoginFormProps extends InjectedFormProps<ILoginFormData> {
+export interface ILoginFormProps extends InjectedFormProps<ISignUpFormData> {
     isLoggedIn: any;
 }
 
-export const LoginForm: React.SFC<ILoginFormProps> = ({ pristine, handleSubmit, submitting, isLoggedIn }) => (
-    <Form onSubmit={handleSubmit}>
+export const SignUpForm: React.SFC<ILoginFormProps> = ({ pristine, handleSubmit, submitting, isLoggedIn }) => (
+    <Form onSubmit={handleSubmit} >
         <Dimmer active={submitting} >
             <Loader content='Loading' />
         </Dimmer>
@@ -31,6 +32,14 @@ export const LoginForm: React.SFC<ILoginFormProps> = ({ pristine, handleSubmit, 
             autoComplete='off'
             disabled={isLoggedIn}
         />
-        <Button type='submit' disabled={pristine || submitting || isLoggedIn}>Log In</Button>
-    </Form>
+        <Field
+            component={InputField}
+            name='repeat-password'
+            label='Confirm Password'
+            type='password'
+            autoComplete='off'
+            disabled={isLoggedIn}
+        />
+        <Button type='submit' disabled={pristine || submitting || isLoggedIn}>Create My Account</Button>
+    </Form >
 );

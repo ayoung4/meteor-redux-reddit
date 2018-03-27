@@ -13,9 +13,16 @@ declare interface IComment {
     postId: string;
 }
 
-declare interface IAction {
+declare interface ICredentials {
+    username: string;
+    password: string;
+}
+
+declare interface IAction<PayloadType=any, MetaType=any> {
     type: string | number;
-    payload: any;
-    meta?: object;
+    payload: PayloadType;
+    meta?: MetaType;
     error?: Error;
 }
+
+

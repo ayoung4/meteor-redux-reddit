@@ -1,6 +1,7 @@
 import { apiActionTypes } from 'Features/shared/constants';
+import { Meteor } from 'meteor/meteor';
 
-export const api = ({ dispatch, getState }) => (next) => (action) => {
+export const api = ({ dispatch }) => (next) => (action) => {
     if (action.type !== apiActionTypes.API) {
         return next(action);
     }
