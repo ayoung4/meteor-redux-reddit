@@ -9,11 +9,12 @@ export interface ISignUpFormData {
     repeatPassword: string;
 }
 
-export interface ILoginFormProps extends InjectedFormProps<ISignUpFormData> {
+export interface ISignUpFormProps {
     isLoggedIn: any;
+    onSubmit: (args) => void;
 }
 
-export const SignUpForm: React.SFC<ILoginFormProps> = ({ pristine, handleSubmit, submitting, isLoggedIn }) => (
+export const SignUpForm: React.SFC<InjectedFormProps<ISignUpFormData>> = ({pristine, handleSubmit, submitting, isLoggedIn }) => (
     <Form onSubmit={handleSubmit} >
         <Dimmer active={submitting} >
             <Loader content='Loading' />
@@ -42,4 +43,4 @@ export const SignUpForm: React.SFC<ILoginFormProps> = ({ pristine, handleSubmit,
         />
         <Button type='submit' disabled={pristine || submitting || isLoggedIn}>Create My Account</Button>
     </Form >
-);
+    );

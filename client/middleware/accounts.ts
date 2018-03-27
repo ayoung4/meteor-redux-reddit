@@ -1,5 +1,5 @@
-import { Utils } from 'Client/Utils';
-import { userActionTypes } from 'Features/users/constants';
+import { userActionTypes } from 'client/features/users/constants';
+import { Utils } from 'client/Utils';
 import { Meteor } from 'meteor/meteor';
 
 export const accounts = ({ dispatch }) => (next) => (action) => {
@@ -10,6 +10,14 @@ export const accounts = ({ dispatch }) => (next) => (action) => {
     switch (action.type) {
         case userActionTypes.SIGN_UP:
             Utils.createUser({ username, password })
+                .then((result) => {
+                    dispatch(handleSuccess(result));
+                })
+                .catch((err) => {
+                    dispatch(handleError(err));
+                });
+        case userActionTypes.LOG_IN:
+            Utils.loginWithPassword({ username, password })
                 .then((result) => {
                     dispatch(handleSuccess(result));
                 })

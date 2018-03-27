@@ -10,6 +10,8 @@ export interface ILoginFormData {
 
 export interface ILoginFormProps extends InjectedFormProps<ILoginFormData> {
     isLoggedIn: any;
+    onSubmit: (args) => void;
+    
 }
 
 export const LoginForm: React.SFC<ILoginFormProps> = ({ pristine, handleSubmit, submitting, isLoggedIn }) => (
