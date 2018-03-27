@@ -21,7 +21,7 @@ const formSchema = new SimpleSchema({
 });
 
 const mapStateToProps = (state: IStoreState) => ({
-    isLoggedIn: true,
+    isLoggedIn: false,
 });
 
 const withForm = reduxForm<ILoginFormData>({

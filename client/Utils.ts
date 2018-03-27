@@ -36,28 +36,28 @@ export module Utils {
 
     export const loginWithPassword = ({ username, password }: ICredentials) =>
 
-        new Promise<IAccountsResponse>((resolve) => {
+        new Promise<IAccountsResponse>((resolve, reject) => {
 
             Meteor.loginWithPassword(username, password, (err, resp) => {
                 const success = !err && !!resp;
-                resolve({
-                    message: String(resp) || err.message,
-                    success,
-                });
+                if (success) {
+                    resolve(resp);
+                }
+                reject(err);
             });
 
         });
 
     export const createUser = ({ username, password }: ICredentials) =>
 
-        new Promise<IAccountsResponse>((resolve) => {
+        new Promise<IAccountsResponse>((resolve, reject) => {
 
             Accounts.createUser({ username, password }, (err: Error, resp) => {
                 const success = !err && !!resp;
-                resolve({
-                    message: String(resp) || err.message,
-                    success,
-                });
+                if (success) {
+                    resolve(resp);
+                }
+                reject(err);
             });
 
         });
