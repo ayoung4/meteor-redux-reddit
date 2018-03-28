@@ -4,8 +4,6 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { Field, FormErrors, reduxForm, SubmissionError } from 'redux-form';
 import SimpleSchema from 'simpl-schema';
-import { logIn } from './actions';
-
 
 import { IStoreState } from 'Client/Store';
 import { ILoginFormData, ILoginFormProps, LoginForm } from './LoginForm';
@@ -26,26 +24,22 @@ const mapStateToProps = (state: IStoreState) => ({
     isLoggedIn: false,
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onSubmit: ({ username, password }) => dispatch(
-            logIn({
-                username,
-                password,
-                handleError: (err) => console.log('err', err),
-                handleSuccess: (res) => console.log('res', res),
-            })),
-    };
-};
-
 const withForm = reduxForm<ILoginFormData>({
     form: 'login',
+    onSubmit: async ({ username = '', password = '' }) => {
+        const result = await Utils.loginWithPassword({ username, password });
+        if (!result.success) {
+            throw new SubmissionError({
+                password: result.message,
+            });
+        }
+    },
     validate: Utils.formValidator(formSchema),
 });
 
-const withLoggedInData = connect(mapStateToProps, mapDispatchToProps);
+const withLoggedInData = connect(mapStateToProps);
 
-export const LoginFormContainer = withLoggedInData(withForm(LoginForm));
+export const LoginFormContainer = withForm(withLoggedInData(LoginForm));
 
 // const enhance = compose(withForm, withLoggedInState);
 // export const LoginFormContainer = enhance(LoginForm);

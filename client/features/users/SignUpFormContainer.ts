@@ -32,22 +32,6 @@ const mapStateToProps = (state: IStoreState) => ({
     isLoggedIn: false,
 });
 
-<<<<<<< HEAD
-const mapDispatchToProps = (dispatch) => ({
-    onSubmit: (...args) => console.log(args),
-});
-
-const onSubmit = async ({ username = '', password = '' }) => {
-    const result = await Utils.createUser({ username, password });
-    if (!result.success) {
-        throw new SubmissionError({
-            username: result.message,
-        });
-    }
-};
-
-const withForm = reduxForm<ISignUpFormData>({
-=======
 const mapDispatchToProps = dispatch => {
     return {
         onSubmit: ({ username, password }) => dispatch(
@@ -61,7 +45,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 const withForm = reduxForm<ISignUpFormData, ISignUpFormProps>({
->>>>>>> 4f5c775b132e7ed1e26419a6551abf389d1bd951
     form: 'sign-up',
     validate: ({ password, repeatPassword, username }) => {
         const errs = validateSchema({ password, repeatPassword, username });
@@ -74,14 +57,8 @@ const withForm = reduxForm<ISignUpFormData, ISignUpFormProps>({
     },
 });
 
-<<<<<<< HEAD
-const withLoggedInData = connect(mapStateToProps, mapDispatchToProps);
-
-export const SignUpFormContainer = withLoggedInData(withForm(SignUpForm));
-=======
 const form = withForm(SignUpForm);
 
 export const withRedux = connect(mapStateToProps, mapDispatchToProps);
 
 export const SignUpFormContainer = withRedux(withForm(SignUpForm));
->>>>>>> 4f5c775b132e7ed1e26419a6551abf389d1bd951
