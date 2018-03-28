@@ -2,6 +2,7 @@ import { ConnectedRouter, push, routerMiddleware, routerReducer, RouterState } f
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { createLogger } from 'redux-logger';
+import { accounts } from 'Middleware/accounts';
 
 import { Comments } from 'Lib/Comments';
 import { Posts } from 'Lib/Posts';
