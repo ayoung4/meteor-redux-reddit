@@ -19,8 +19,8 @@ export const setReady = (name, state) => {
 
 export const syncCollection = (collection: Mongo.Collection<any> & { _name: string }) => ({
     payload: {
-        collectionName: collection._name,
         docs: collection.find().fetch(),
+        name: collection._name,
     },
     type: minimongoActionTypes.SET_MONGO_COLLECTION,
 });

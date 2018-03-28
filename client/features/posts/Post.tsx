@@ -8,7 +8,6 @@ export interface IPostProps {
     text: string;
     commentCount: number;
     created: Date;
-    getPostById: any;
 }
 
 export const Post: React.SFC<IPostProps> = ({ _id, title, text, commentCount, created }) => (

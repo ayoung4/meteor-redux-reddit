@@ -1,3 +1,4 @@
+import { withSubscription } from 'Client/minimongo/withSubscription';
 import { IStoreState } from 'Client/Store';
 import { commentsByPostId } from 'Features/comments/selectors';
 import { withLoadingSegment } from 'Features/shared/LoadingSegment';
@@ -14,7 +15,7 @@ type IProps = IPostListProps & {
 };
 
 const mapStateToProps = (state: IStoreState) => ({
-    postItems: _.map(state.posts, ({ _id, created, title, text }) => ({
+    postItems: _.map(state.mongo.collections.posts, ({ _id, created, title, text }) => ({
         _id,
         commentCount: commentsByPostId(state, _id).length,
         created,
@@ -23,24 +24,15 @@ const mapStateToProps = (state: IStoreState) => ({
     })),
 });
 
-const mapDispatchToProps = (dispatch: Dispatch<IStoreState>) => ({
-    getPosts: () => dispatch(fetchPosts()),
-});
+const isLoading = ({ subscriptions }) => !(subscriptions['posts.all']
+    && subscriptions['posts.all'].isReady);
 
-const isLoading = ({ postItems }) => !postItems || !postItems.length;
-
-const withPostData = lifecycle<IProps, {}>({
-    componentDidMount() {
-        this.props.getPosts();
-    },
-});
-
-const enhanced = compose<IPostListProps, IProps>(
-    withPostData,
+const enhance = compose<IPostListProps, IPostListProps>(
+    withSubscription({
+        ['posts.all']: {},
+    }),
     withLoadingSegment(isLoading),
-)(PostList);
+    connect(mapStateToProps),
+);
 
-export const PostListContainer = connect(
-    mapStateToProps,
-    mapDispatchToProps,
-)(enhanced);
+export const PostListContainer = enhance(PostList);

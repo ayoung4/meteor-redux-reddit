@@ -4,7 +4,7 @@ import { Route } from 'react-router-dom';
 import { ConnectedRouter, routerMiddleware, routerReducer } from 'react-router-redux';
 import { Container, Header } from 'semantic-ui-react';
 
-import { withSubscription } from 'Client/minimongo/SubscriptionComponent';
+import { withSubscription } from 'Client/minimongo/withSubscription';
 import { AddPost } from 'Scenes/AddPost';
 import { Home } from 'Scenes/Home';
 import { Login } from 'Scenes/Login';
@@ -12,7 +12,13 @@ import { PostDetail } from 'Scenes/PostDetail';
 import { SignUp } from 'Scenes/SignUp';
 const history = createHistory();
 
-export const App = () => (
+const loggedInUser = {
+    ['users.logged-in']: {},
+};
+
+export const App = withSubscription({
+    ['users.logged-in']: {},
+})(() => (
     <ConnectedRouter history={history}>
         <Container style={{ marginTop: '80px' }}>
             <Header style={{ marginBottom: '40px' }}>Meteor Redux Reddit</Header>
@@ -23,4 +29,4 @@ export const App = () => (
             <Route path='/add/post' component={AddPost} />
         </Container>
     </ConnectedRouter>
-);
+));

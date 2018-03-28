@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 
 export module Posts {
 
-    const collection = new Mongo.Collection<IPost>('posts');
+    export const collection = new Mongo.Collection<IPost>('posts');
 
     export const randomPost: () => IPost = () => ({
         _id: Random.id(),

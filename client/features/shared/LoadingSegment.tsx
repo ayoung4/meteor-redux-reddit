@@ -11,7 +11,9 @@ export const LoadingSegment = () => (
     </Segment>
 );
 
-export const withLoadingSegment = (isLoading: (props) => boolean) => branch(
+type LoadingEnhancerFactory = <P>(isLoading: (props: P) => boolean) => ComponentEnhancer<P, P>;
+
+export const withLoadingSegment: LoadingEnhancerFactory = (isLoading: (props) => boolean) => branch(
     isLoading,
     renderComponent(LoadingSegment),
 );

@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 
 export module Comments {
 
-    const collection = new Mongo.Collection<IComment>('comments');
+    export const collection = new Mongo.Collection<IComment>('comments');
 
     export const randomComment: (postId?: string) => IComment = (postId) => ({
         _id: Random.id(),

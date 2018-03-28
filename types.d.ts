@@ -25,4 +25,19 @@ declare interface IAction<PayloadType=any, MetaType=any> {
     error?: Error;
 }
 
+declare type subscriptionArgs = object;
 
+declare interface ISubscriptionProps {
+    subscriptions: ISubscriptionMap;
+    dispatch: (ISubscriptionAction) => any;
+}
+
+declare interface ISubscriptionState {
+    isReady: boolean;
+    handle: Meteor.SubscriptionHandle;
+    computation: Tracker.Computation;
+}
+
+declare interface ISubscriptionMap {
+    [subName: string]: ISubscriptionState;
+}

@@ -27,19 +27,24 @@ const formSchema = new SimpleSchema({
 const validateSchema = Utils.formValidator(formSchema);
 
 const mapStateToProps = (state: IStoreState) => ({
-    isLoggedIn: true,
+    isLoggedIn: false,
 });
+
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: (...args) => console.log(args),
+});
+
+const onSubmit = async ({ username = '', password = '' }) => {
+    const result = await Utils.createUser({ username, password });
+    if (!result.success) {
+        throw new SubmissionError({
+            username: result.message,
+        });
+    }
+};
 
 const withForm = reduxForm<ISignUpFormData>({
     form: 'sign-up',
-    onSubmit: async ({ username = '', password = '' }) => {
-        const result = await Utils.createUser({ username, password });
-        if (!result.success) {
-            throw new SubmissionError({
-                username: result.message,
-            });
-        }
-    },
     validate: ({ password, repeatPassword, username }) => {
         const errs = validateSchema({ password, repeatPassword, username });
         if (!!password && !!repeatPassword && password !== repeatPassword) {
@@ -51,6 +56,6 @@ const withForm = reduxForm<ISignUpFormData>({
     },
 });
 
-const withLoggedInData = connect(mapStateToProps);
+const withLoggedInData = connect(mapStateToProps, mapDispatchToProps);
 
-export const SignUpFormContainer = withForm(withLoggedInData(SignUpForm));
+export const SignUpFormContainer = withLoggedInData(withForm(SignUpForm));

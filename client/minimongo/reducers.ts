@@ -5,8 +5,11 @@ import { minimongoActionTypes } from './actions';
 const collectionReducer = (state = {}, action) => {
     switch (action.type) {
         case minimongoActionTypes.SET_MONGO_COLLECTION:
-            const { collectionName, docs } = action.payload;
-            return _.extend(state, { [action.payload.name]: action.payload.docs });
+            const oldDocs = state[action.payload.name] || [];
+            return {
+                ...state,
+                [action.payload.name]: _.concat(action.payload.docs, oldDocs),
+            };
         default:
             return state;
     }
@@ -15,8 +18,10 @@ const collectionReducer = (state = {}, action) => {
 const readyReducer = (state = {}, action) => {
     switch (action.type) {
         case minimongoActionTypes.SET_MONGO_COLLECTION_READY_STATE:
-            const { collectionName, ready } = action.payload;
-            return _.extend(state, { [action.payload.name]: action.payload.ready });
+            return {
+                ...state,
+                [action.payload.name]: action.payload.ready,
+            };
         default:
             return state;
     }

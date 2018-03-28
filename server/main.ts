@@ -27,4 +27,16 @@ Meteor.startup(() => {
     Meteor.publish('users.logged-in', function () {
         return Meteor.users.find({ _id: this.userId || '' });
     });
+
+    Meteor.publish('posts.all', function () {
+        return Posts.collection.find();
+    });
+
+    Meteor.publish('posts.by-id', function ({ _id }: { _id: string }) {
+        return Posts.collection.find({ _id });
+    });
+
+    Meteor.publish('comments.by-post-id', function ({ postId }: { postId: string }) {
+        return Comments.collection.find({ postId });
+    });
 });
