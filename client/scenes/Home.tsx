@@ -4,6 +4,6 @@ import { PostListContainer } from 'Features/posts/PostListContainer';
 
 export const Home = () => (
     <div id='page'>
-        <PostListContainer />
+        <PostListContainer postIds={[]} />
     </div>
 );

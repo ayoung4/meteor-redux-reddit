@@ -12,6 +12,7 @@ Meteor.startup(() => {
     Comments.clear();
     Meteor.users.remove({});
     Accounts.createUser({ username: 'admin', password: 'password' });
+    
     _.forEach(_.range(10), () => {
         const postId = Posts.insert(
             `${faker.hacker.ingverb()} ${faker.hacker.noun()}`, faker.lorem.paragraph(),
@@ -36,7 +37,15 @@ Meteor.startup(() => {
         return Posts.collection.find({ _id });
     });
 
+    Meteor.publish('posts.by-ids', function ({ postIds }: { postIds: string[] }) {
+        return Posts.collection.find({ _id: { $in: postIds } });
+    });
+
+
     Meteor.publish('comments.by-post-id', function ({ postId }: { postId: string }) {
+        console.log('comments.by-post-id');
+        
         return Comments.collection.find({ postId });
     });
+
 });

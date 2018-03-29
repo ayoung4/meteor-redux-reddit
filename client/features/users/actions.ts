@@ -1,24 +1,21 @@
 import { userActionTypes } from './constants';
 
-export const signUp = ({username, password, handleError, handleSuccess}) => ({
+export const signUp = ({ username, password, handleError, handleSuccess }) => ({
     payload: {
-        password,
-        username,
         handleError,
         handleSuccess,
+        password,
+        username,
     },
     type: userActionTypes.SIGN_UP,
 });
 
-
-
-
-export const logIn = ({username, password, handleError, handleSuccess}) => ({
+export const logIn = ({ username, password, handleError, handleSuccess }) => ({
     payload: {
-        password,
-        username,
         handleError,
         handleSuccess,
+        password,
+        username,
     },
     type: userActionTypes.LOG_IN,
 });
