@@ -7,36 +7,41 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { branch, compose, lifecycle, renderComponent } from 'recompose';
 import { Dispatch } from 'redux';
+import { postById } from './selectors';
 
-import { CommentList } from './CommentList';
+import { IPostProps, Post } from './Post';
 
 const mapStateToProps = (state: IStoreState, { postId }: { postId: string }) => {
-    const comments = commentsByPostId(state, postId);
+    const post = postById(state, postId);
     return {
-        commentData: comments,
-        postId,
+        postData: {
+            commentCount: commentsByPostId(state, postId).length,
+            ...post,
+            _id: postId,
+        },
     };
 };
 
-const subscribeToComments = ({ postId }) => {
-    const ready = Meteor.subscribe('comments.by-post-id', { postId }).ready();
-    return { ready };
+const subscribeToPost = ({ postData }) => {
+    const postsReady = Meteor.subscribe('posts.by-id', { _id: postData._id }).ready();
+    const commentsReady = Meteor.subscribe('comments.by-post-id', { postId: postData._id }).ready();
+    return { ready: postsReady && commentsReady };
 };
 
 const isLoading = ({ ready }) => !ready;
 
 const enhance = compose<IProps, { postId: string }>(
     connect(mapStateToProps),
-    withTracker(subscribeToComments),
+    withTracker(subscribeToPost),
     withLoadingSegment<IProps>(isLoading),
 );
 
 interface IProps {
     postId: string;
-    commentData: IComment[];
+    postData: IPostProps;
     ready: boolean;
 }
 
-const CommentListContainerComp: React.SFC<IProps> = ({ commentData }) => CommentList(commentData);
+const PostContainerComp: React.SFC<IProps> = ({ postData }) => Post(postData);
 
-export const CommentListContainer = enhance(CommentListContainerComp);
+export const PostContainer = enhance(PostContainerComp);

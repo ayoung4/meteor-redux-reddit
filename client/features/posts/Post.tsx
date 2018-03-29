@@ -10,7 +10,7 @@ export interface IPostProps {
     created: Date;
 }
 
-export const Post: React.SFC<IPostProps> = ({ _id, title, text, commentCount, created }) => (
+export const Post: React.SFC<IPostProps> = ({ _id, title = '', text = '', commentCount = 0, created }) => (
     <Segment key={_id} stacked padded >
         <Header as={Link} to={`/post/${_id}`}>{title}</Header>
         <br />
@@ -21,7 +21,7 @@ export const Post: React.SFC<IPostProps> = ({ _id, title, text, commentCount, cr
                 <p>{commentCount} comments</p>
             </Grid.Column>
             <Grid.Column width={8} textAlign='right'>
-                <p>{created.toDateString()}</p>
+                <p>{!!created ? created.toDateString() : ''}</p>
             </Grid.Column>
         </Grid>
     </Segment>

@@ -19,3 +19,4 @@ barbatus:typescript
 meteortesting:mocha
 accounts-base
 accounts-password
+react-meteor-data

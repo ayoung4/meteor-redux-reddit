@@ -41,3 +41,7 @@ declare interface ISubscriptionState {
 declare interface ISubscriptionMap {
     [subName: string]: ISubscriptionState;
 }
+
+declare module 'meteor/react-meteor-data' {
+    export const withTracker: (autorun: (props: any) => any) => any;
+}
