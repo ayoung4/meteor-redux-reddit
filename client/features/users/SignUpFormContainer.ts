@@ -5,12 +5,12 @@ import { connect } from 'react-redux';
 import { branch, compose } from 'recompose';
 import { Field, FormErrors, reduxForm, SubmissionError } from 'redux-form';
 import SimpleSchema from 'simpl-schema';
-import { userActionTypes } from './constants';
 import { signUp } from './actions';
+import { userActionTypes } from './constants';
 
-import { ISignUpFormData, SignUpForm, ISignUpFormProps } from './SignUpForm';
+import { ISignUpFormData, ISignUpFormProps, SignUpForm } from './SignUpForm';
 
-const formSchema = new SimpleSchema({
+const signUpFormSchema = new SimpleSchema({
     password: {
         min: 7,
         type: String,
@@ -26,39 +26,39 @@ const formSchema = new SimpleSchema({
     },
 });
 
-const validateSchema = Utils.formValidator(formSchema);
+const validateSchema = Utils.formValidator(signUpFormSchema);
 
 const mapStateToProps = (state: IStoreState) => ({
-    isLoggedIn: false,
+    isLoggedIn: state.loggedInUser.isLoggedIn,
 });
 
-const mapDispatchToProps = dispatch => {
-    return {
-        onSubmit: ({ username, password }) => dispatch(
-            signUp({
-                username,
-                password,
-                handleError: (err) => console.log('err', err),
-                handleSuccess: (res) => console.log('res', res),
-            })),
-    };
-};
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: ({ username, password }) => dispatch(
+        signUp({
+            handleError: (err) => console.log('err', err),
+            handleSuccess: (res) => console.log('res', res),
+            password,
+            username,
+        })),
+});
 
-const withForm = reduxForm<ISignUpFormData, ISignUpFormProps>({
+const formOptions = {
     form: 'sign-up',
     validate: ({ password, repeatPassword, username }) => {
         const errs = validateSchema({ password, repeatPassword, username });
-        if (!!password && !!repeatPassword && password !== repeatPassword) {
-            return _.extend(errs, {
+        const hasErrs = _.keys(errs).length > 0;
+        if (!hasErrs && password !== repeatPassword) {
+            return {
                 password: 'passwords don\'t match',
-            });
+            };
         }
         return errs;
     },
-});
+};
 
-const form = withForm(SignUpForm);
+const enhance = compose<ISignUpFormProps, {}>(
+    connect(mapStateToProps, mapDispatchToProps),
+    reduxForm<ISignUpFormData, ISignUpFormProps>(formOptions),
+);
 
-export const withRedux = connect(mapStateToProps, mapDispatchToProps);
-
-export const SignUpFormContainer = withRedux(withForm(SignUpForm));
+export const SignUpFormContainer = enhance(SignUpForm);

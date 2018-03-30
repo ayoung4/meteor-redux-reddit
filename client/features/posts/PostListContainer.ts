@@ -22,8 +22,10 @@ const mapStateToProps = (state: IStoreState, { postIds }: { postIds: string[] })
 };
 
 const subscribeToPosts = ({ postIds }) => {
-    const ready = Meteor.subscribe('posts.by-ids', { postIds }).ready();
-    return { ready };
+    const postsReady = Meteor.subscribe('posts.by-ids', { postIds }).ready();
+    const commentsReady = _.map(postIds, (postId) =>
+        Meteor.subscribe('comments.by-post-id', { postId }));
+    return { ready: postsReady && commentsReady };
 };
 
 const isLoading = ({ ready }) => !ready;

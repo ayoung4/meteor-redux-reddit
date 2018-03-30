@@ -1,6 +1,10 @@
+import * as _ from 'lodash';
+import { withTracker } from 'meteor/react-meteor-data';
 import * as React from 'react';
+import { compose } from 'recompose';
 import { Header } from 'semantic-ui-react';
 
+import { IStoreState } from 'Client/Store';
 import { LoginFormContainer } from 'Features/users/LoginFormContainer';
 
 export const Login = () => (

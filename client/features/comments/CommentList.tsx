@@ -14,9 +14,10 @@ export const CommentList: React.SFC<IComment[]> = (comments) => (
         <Divider horizontal>
             {!!comments && comments.length ? 'comments' : 'no comments to display'}
         </Divider>
-        <Feed events={_.map(comments, ({ created, text }) => ({
+        <Feed events={_.map(comments, ({ _id, created, text }) => ({
             date: created.toDateString(),
             image: 'https://react.semantic-ui.com/assets/images/avatar/small/elliot.jpg',
+            key: _id,
             summary: text,
         }))}></Feed>
     </div>

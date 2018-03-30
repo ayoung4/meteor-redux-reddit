@@ -2,16 +2,13 @@ import { ConnectedRouter, push, routerMiddleware, routerReducer, RouterState } f
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { createLogger } from 'redux-logger';
-import { accounts } from 'Middleware/accounts';
 
 import { Comments } from 'Lib/Comments';
 import { Posts } from 'Lib/Posts';
-
-import { commentsReducer, ICommentState } from 'Features/comments/reducer';
-import { IPostsState, postsReducer } from 'Features/posts/reducer';
+import { accounts } from 'Middleware/accounts';
 import { api } from 'Middleware/api';
-import { connectCollection } from './minimongo/connectCollection';
-import { mongoReducer } from './minimongo/reducers';
+import { connectCollection, connectLoggedInUser } from './minimongo/connectCollection';
+import { ILoggedInUserState, loggedInUserReducer, mongoReducer } from './minimongo/reducers';
 
 interface IRouterState extends RouterState {
     hash: string;
@@ -20,8 +17,7 @@ interface IRouterState extends RouterState {
 }
 
 export interface IStoreState {
-    comments: ICommentState;
-    posts: IPostsState;
+    loggedInUser: ILoggedInUserState;
     mongo: {
         collections: {
             comments: IComment[];
@@ -34,10 +30,9 @@ export interface IStoreState {
 }
 
 const rootReducer = combineReducers<IStoreState>({
-    comments: commentsReducer,
     form: formReducer,
+    loggedInUser: loggedInUserReducer,
     mongo: mongoReducer,
-    posts: postsReducer,
     router: routerReducer,
 });
 
@@ -48,5 +43,6 @@ const reduxStore = createStore(rootReducer, middleWare);
 connectCollection(Meteor.users, reduxStore);
 connectCollection(Posts.collection, reduxStore);
 connectCollection(Comments.collection, reduxStore);
+connectLoggedInUser(reduxStore);
 
 export const store = reduxStore;

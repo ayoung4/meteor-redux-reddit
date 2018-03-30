@@ -1,9 +1,12 @@
 import * as _ from 'lodash';
 import { Accounts } from 'meteor/accounts-base';
 import * as Promise from 'promise';
+import { Reducer } from 'redux';
 import SimpleSchema from 'simpl-schema';
 
 export module Utils {
+
+    // Validator Factory 
 
     interface IValidationContextError {
         name: string;
@@ -28,6 +31,8 @@ export module Utils {
         return {};
 
     };
+
+    // Promisified accounts services
 
     interface IAccountsResponse {
         success: boolean;
@@ -61,5 +66,18 @@ export module Utils {
             });
 
         });
+
+    // Reducer Factory
+
+    interface IActionHandlerMap<S, A> {
+        [name: string]: (state: S, action) => S;
+    }
+
+    type reducerFactory = <S, A>(initialState: S, actionMap: IActionHandlerMap<S, A>) => Reducer<S>;
+
+    export const reducerOf: reducerFactory = (initialState, actionMap) => (state = initialState, action) =>
+        (typeof actionMap[action.type] === 'function')
+            ? actionMap[action.type](state, action)
+            : state;
 
 }

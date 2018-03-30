@@ -1,21 +1,9 @@
 import { Mongo } from 'meteor/mongo';
 
 export enum minimongoActionTypes {
-    SET_MONGO_COLLECTION_READY_STATE = 'MONGO_COLLECTION_READY_STATE',
     SET_MONGO_COLLECTION = 'SET_MONGO_COLLECTION',
+    SET_LOGGED_IN_USER = 'SET_LOGGED_IN_USER',
 }
-
-export const setReady = (name, state) => {
-    return (dispatch) => {
-        dispatch({
-            payload: {
-                name,
-                state,
-            },
-            type: minimongoActionTypes.SET_MONGO_COLLECTION_READY_STATE,
-        });
-    };
-};
 
 export const syncCollection = (collection: Mongo.Collection<any> & { _name: string }) => ({
     payload: {
@@ -24,3 +12,31 @@ export const syncCollection = (collection: Mongo.Collection<any> & { _name: stri
     },
     type: minimongoActionTypes.SET_MONGO_COLLECTION,
 });
+
+export const setLoggedInUser = ({ isLoggedIn, _id, role, username, avatar }) => ({
+    payload: {
+        avatar,
+        isLoggedIn,
+        meta: {
+            _id,
+            role,
+        },
+        username,
+    },
+    type: minimongoActionTypes.SET_LOGGED_IN_USER,
+});
+// Currently Unused:
+
+// SET_MONGO_COLLECTION_READY_STATE = 'MONGO_COLLECTION_READY_STATE',
+
+// export const setReady = (name, state) => {
+//     return (dispatch) => {
+//         dispatch({
+//             payload: {
+//                 name,
+//                 state,
+//             },
+//             type: minimongoActionTypes.SET_MONGO_COLLECTION_READY_STATE,
+//         });
+//     };
+// };

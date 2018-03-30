@@ -41,10 +41,7 @@ Meteor.startup(() => {
         return Posts.collection.find({ _id: { $in: postIds } });
     });
 
-
-    Meteor.publish('comments.by-post-id', function ({ postId }: { postId: string }) {
-        console.log('comments.by-post-id');
-        
+    Meteor.publish('comments.by-post-id', function ({ postId = '' }: { postId: string }) {
         return Comments.collection.find({ postId });
     });
 

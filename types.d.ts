@@ -13,6 +13,11 @@ declare interface IComment {
     postId: string;
 }
 
+declare interface IUser {
+    _id: string;
+    username: string;
+}
+
 declare interface ICredentials {
     username: string;
     password: string;

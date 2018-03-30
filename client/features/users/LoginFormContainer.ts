@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'recompose';
 import { Field, FormErrors, reduxForm, SubmissionError } from 'redux-form';
 import SimpleSchema from 'simpl-schema';
+import { logIn } from './actions';
 
 import { IStoreState } from 'Client/Store';
 import { ILoginFormData, ILoginFormProps, LoginForm } from './LoginForm';
@@ -21,25 +22,27 @@ const formSchema = new SimpleSchema({
 });
 
 const mapStateToProps = (state: IStoreState) => ({
-    isLoggedIn: false,
+    isLoggedIn: state.loggedInUser.isLoggedIn,
 });
 
-const withForm = reduxForm<ILoginFormData>({
+const mapDispatchToProps = (dispatch) => ({
+    onSubmit: ({ username, password }) => dispatch(
+        logIn({
+            handleError: (err) => console.log('err', err),
+            handleSuccess: (res) => console.log('res', res),
+            password,
+            username,
+        })),
+});
+
+const formOptions = {
     form: 'login',
-    onSubmit: async ({ username = '', password = '' }) => {
-        const result = await Utils.loginWithPassword({ username, password });
-        if (!result.success) {
-            throw new SubmissionError({
-                password: result.message,
-            });
-        }
-    },
     validate: Utils.formValidator(formSchema),
-});
+};
 
-const withLoggedInData = connect(mapStateToProps);
+const enhance = compose<ILoginFormProps, {}>(
+    connect(mapStateToProps, mapDispatchToProps),
+    reduxForm<ILoginFormData>(formOptions),
+);
 
-export const LoginFormContainer = withForm(withLoggedInData(LoginForm));
-
-// const enhance = compose(withForm, withLoggedInState);
-// export const LoginFormContainer = enhance(LoginForm);
+export const LoginFormContainer = enhance(LoginForm);
