@@ -16,7 +16,14 @@ declare interface IComment {
 declare interface IUser {
     _id: string;
     username: string;
+    avatar?: IColor;
 }
+
+declare interface IColor {
+    r: number;
+    g: number;
+    b: number;
+} 
 
 declare interface ICredentials {
     username: string;

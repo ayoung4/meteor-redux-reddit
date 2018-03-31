@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import { branch, compose } from 'recompose';
 import { Field, FormErrors, reduxForm, SubmissionError } from 'redux-form';
 import SimpleSchema from 'simpl-schema';
-import { signUp } from './actions';
-import { userActionTypes } from './constants';
 
 import { ISignUpFormData, ISignUpFormProps, SignUpForm } from './SignUpForm';
 
@@ -32,18 +30,15 @@ const mapStateToProps = (state: IStoreState) => ({
     isLoggedIn: state.loggedInUser.isLoggedIn,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    onSubmit: ({ username, password }) => dispatch(
-        signUp({
-            handleError: (err) => console.log('err', err),
-            handleSuccess: (res) => console.log('res', res),
-            password,
-            username,
-        })),
-});
-
 const formOptions = {
     form: 'sign-up',
+    onSubmit: async ({ username, password }) => {
+        try {
+            await Utils.createUser({ username, password });
+        } catch (err) {
+            throw new SubmissionError(err);
+        }
+    },
     validate: ({ password, repeatPassword, username }) => {
         const errs = validateSchema({ password, repeatPassword, username });
         const hasErrs = _.keys(errs).length > 0;
@@ -57,7 +52,7 @@ const formOptions = {
 };
 
 const enhance = compose<ISignUpFormProps, {}>(
-    connect(mapStateToProps, mapDispatchToProps),
+    connect(mapStateToProps),
     reduxForm<ISignUpFormData, ISignUpFormProps>(formOptions),
 );
 

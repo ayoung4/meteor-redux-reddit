@@ -11,7 +11,6 @@ export interface ISignUpFormData {
 
 export interface ISignUpFormProps extends InjectedFormProps<ISignUpFormData> {
     isLoggedIn: any;
-    onSubmit: (args) => void;
 }
 
 export const SignUpForm: React.SFC<ISignUpFormProps> = ({

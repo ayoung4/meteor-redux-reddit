@@ -1,9 +1,11 @@
 import * as React from 'react';
+import { Header } from 'semantic-ui-react';
 
-import { AddPostForm } from 'Features/posts/AddPostForm';
+import { AddPostFormContainer } from 'Features/posts/AddPostFormContainer';
 
 export const AddPost = () => (
     <div id='page'>
-        <AddPostForm />
+        <Header>Create a New Post</Header>
+        <AddPostFormContainer />
     </div>
 );

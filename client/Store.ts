@@ -2,10 +2,10 @@ import { ConnectedRouter, push, routerMiddleware, routerReducer, RouterState } f
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { createLogger } from 'redux-logger';
+import thunkMiddleware from 'redux-thunk';
 
 import { Comments } from 'Lib/Comments';
 import { Posts } from 'Lib/Posts';
-import { accounts } from 'Middleware/accounts';
 import { api } from 'Middleware/api';
 import { connectCollection, connectLoggedInUser } from './minimongo/connectCollection';
 import { ILoggedInUserState, loggedInUserReducer, mongoReducer } from './minimongo/reducers';
@@ -36,7 +36,7 @@ const rootReducer = combineReducers<IStoreState>({
     router: routerReducer,
 });
 
-const middleWare = applyMiddleware(api, createLogger());
+const middleWare = applyMiddleware(thunkMiddleware, api, createLogger());
 
 const reduxStore = createStore(rootReducer, middleWare);
 

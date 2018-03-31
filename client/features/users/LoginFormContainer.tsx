@@ -2,12 +2,15 @@ import { Utils } from 'Client/Utils';
 import { Meteor } from 'meteor/meteor';
 import { connect } from 'react-redux';
 import { compose } from 'recompose';
-import { Field, FormErrors, reduxForm, SubmissionError } from 'redux-form';
+import { Field, FormErrors, reduxForm } from 'redux-form';
 import SimpleSchema from 'simpl-schema';
-import { logIn } from './actions';
 
 import { IStoreState } from 'Client/Store';
 import { ILoginFormData, ILoginFormProps, LoginForm } from './LoginForm';
+
+import * as React from 'react';
+import { InputField } from 'react-semantic-redux-form';
+import { Button, Dimmer, Form, Loader } from 'semantic-ui-react';
 
 const formSchema = new SimpleSchema({
     password: {
@@ -25,24 +28,15 @@ const mapStateToProps = (state: IStoreState) => ({
     isLoggedIn: state.loggedInUser.isLoggedIn,
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    onSubmit: ({ username, password }) => dispatch(
-        logIn({
-            handleError: (err) => console.log('err', err),
-            handleSuccess: (res) => console.log('res', res),
-            password,
-            username,
-        })),
-});
-
 const formOptions = {
     form: 'login',
+    onSubmit: async ({ username, password }) => await Utils.loginWithPassword({ username, password }),
     validate: Utils.formValidator(formSchema),
 };
 
 const enhance = compose<ILoginFormProps, {}>(
-    connect(mapStateToProps, mapDispatchToProps),
-    reduxForm<ILoginFormData>(formOptions),
+    connect(mapStateToProps),
+    reduxForm<ILoginFormData, ILoginFormProps>(formOptions),
 );
 
 export const LoginFormContainer = enhance(LoginForm);

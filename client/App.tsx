@@ -5,6 +5,7 @@ import { Route } from 'react-router-dom';
 import { ConnectedRouter, routerMiddleware, routerReducer } from 'react-router-redux';
 import { Container, Header } from 'semantic-ui-react';
 
+import { NavbarContainer } from 'Features/users/NavbarContainer';
 import { AddPost } from 'Scenes/AddPost';
 import { Home } from 'Scenes/Home';
 import { Login } from 'Scenes/Login';
@@ -13,13 +14,15 @@ import { SignUp } from 'Scenes/SignUp';
 
 const history = createHistory();
 
-export const App = withTracker(() => {
+const enhance = withTracker(() => {
     const ready = Meteor.subscribe('users.logged-in').ready();
     return { ready };
-})(() => (
+});
+
+export const App = enhance(() => (
     <ConnectedRouter history={history}>
-        <Container style={{ marginTop: '80px' }}>
-            <Header style={{ marginBottom: '40px' }}>Meteor Redux Reddit</Header>
+        <Container style={{ marginTop: '80px', marginBottom: '80px' }}>
+            <NavbarContainer />
             <Route exact path='/' component={Home} />
             <Route path='/login' component={Login} />
             <Route path='/sign-up' component={SignUp} />

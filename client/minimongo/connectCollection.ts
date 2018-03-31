@@ -15,7 +15,7 @@ export const connectLoggedInUser = (store) => {
             avatar: { r: 255, g: 0, b: 0 },
             isLoggedIn: !!user,
             role: 'user',
-            username: !!user ? user.username : undefined,
+            username: !!user ? user.username : 'anonymous',
         }));
     });
 };
