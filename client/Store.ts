@@ -1,4 +1,4 @@
-import { ConnectedRouter, push, routerMiddleware, routerReducer, RouterState } from 'react-router-redux';
+import { routerMiddleware, routerReducer } from 'react-router-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import { createLogger } from 'redux-logger';
@@ -6,43 +6,26 @@ import thunkMiddleware from 'redux-thunk';
 
 import { Comments } from 'Lib/Comments';
 import { Posts } from 'Lib/Posts';
-import { api } from 'Middleware/api';
-import { connectCollection, connectLoggedInUser } from './minimongo/connectCollection';
-import { ILoggedInUserState, loggedInUserReducer, mongoReducer } from './minimongo/reducers';
 
-interface IRouterState extends RouterState {
-    hash: string;
-    pathname: string;
-    search;
-}
+import { mongoReducer } from 'Data/collections/reducer';
+import { currentUserReducer } from 'Data/currentUser/reducer'; 
 
-export interface IStoreState {
-    loggedInUser: ILoggedInUserState;
-    mongo: {
-        collections: {
-            comments: IComment[];
-            posts: IPost[];
-        };
-    };
-    router: {
-        location: IRouterState;
-    };
-}
+import { Minimongo } from 'Services/Minimongo'; 
 
 const rootReducer = combineReducers<IStoreState>({
+    currentUser: currentUserReducer,
     form: formReducer,
-    loggedInUser: loggedInUserReducer,
     mongo: mongoReducer,
     router: routerReducer,
 });
 
-const middleWare = applyMiddleware(thunkMiddleware, api, createLogger());
+const middleWare = applyMiddleware(thunkMiddleware, createLogger());
 
 const reduxStore = createStore(rootReducer, middleWare);
 
-connectCollection(Meteor.users, reduxStore);
-connectCollection(Posts.collection, reduxStore);
-connectCollection(Comments.collection, reduxStore);
-connectLoggedInUser(reduxStore);
+Minimongo.connectCollection(Meteor.users, reduxStore);
+Minimongo.connectCollection(Posts.collection, reduxStore);
+Minimongo.connectCollection(Comments.collection, reduxStore);
+Minimongo.connectLoggedInUser(reduxStore);
 
 export const store = reduxStore;

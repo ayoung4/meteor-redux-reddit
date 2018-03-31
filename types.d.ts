@@ -1,9 +1,12 @@
+import { RouterState } from 'react-router-redux';
+
 declare interface IPost {
     _id: string;
     title: string;
     text: string;
     created: Date;
     upVotes: number;
+    commentCount?: number;
 }
 
 declare interface IComment {
@@ -23,7 +26,7 @@ declare interface IColor {
     r: number;
     g: number;
     b: number;
-} 
+}
 
 declare interface ICredentials {
     username: string;
@@ -57,3 +60,36 @@ declare interface ISubscriptionMap {
 declare module 'meteor/react-meteor-data' {
     export const withTracker: (autorun: (props: any) => any) => any;
 }
+
+declare interface ICurrentUserState {
+    avatar: IColor;
+    isLoggedIn: boolean;
+    meta?: {
+        _id: string;
+        role: string;
+    };
+    username: string;
+}
+
+declare interface IRouterState extends RouterState {
+    hash: string;
+    pathname: string;
+    search;
+}
+
+declare interface ICollectionsState {
+    comments?: IComment[];
+    posts?: IPost[];
+    users?: IUser[];
+}
+
+declare interface IStoreState {
+    currentUser: ICurrentUserState;
+    mongo: {
+        collections: ICollectionsState;
+    };
+    router: {
+        location: IRouterState;
+    };
+}
+

@@ -12,11 +12,17 @@
     "noImplicitAny": false,
     "baseUrl": ".",
     "paths": {
+      "Components/*": ["client/components/*"],
       "Features/*": ["client/features/*"],
-      "Scenes/*": ["client/scenes/*"],
+      "Scenes/*": ["client/components/scenes/*"],
+      "Elements/*": ["client/components/elements/*"],
+      "Containers/*": ["client/components/containers/*"],
       "Middleware/*": ["client/middleware/*"],
       "Lib/*": ["lib/*"],
-      "Client/*": ["client/*"]
+      "Client/*": ["client/*"],
+      "Providers/*": ["client/providers/*"],
+      "Data/*": ["client/data/*"],
+      "Services/*": ["client/services/*"]
     }
   }
 }
