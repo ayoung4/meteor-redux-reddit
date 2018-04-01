@@ -12,21 +12,40 @@ export interface INavbarProps {
     };
 }
 
+export const testIds = {
+    login: 'log-in',
+    logout: 'log-out',
+    signup: 'sign-up',
+    username: 'username',
+};
+
 interface IHeaderMenuProps {
     username: string;
     avatar: IColor;
 }
 
-const SignUpMenu: React.SFC<{ location: string }> = ({ location }) => (
+const LoginMenu: React.SFC<{ location: string }> = ({ location }) => (
     <Menu.Menu position='right'>
-        <Menu.Item name='login' as={Link} to={'/login'} active={location === '/login'}>Log in</Menu.Item>
-        <Menu.Item name='signup' as={Link} to={'/sign-up'} active={location === '/sign-up'}>Sign up</Menu.Item>
+        <Menu.Item
+            id={testIds.login}
+            name='login'
+            as={Link} to={'/login'}
+            active={location === '/login'}>Log in</Menu.Item>
+        <Menu.Item
+            id={testIds.signup}
+            name='signup'
+            as={Link} to={'/sign-up'}
+            active={location === '/sign-up'}>Sign up</Menu.Item>
     </Menu.Menu>
 );
 
 const LogOutMenu: React.SFC<{}> = () => (
     <Menu.Menu position='right'>
-        <Menu.Item as={Button} name='logout' onClick={() => Meteor.logout()}>Log out</Menu.Item>
+        <Menu.Item
+            id={testIds.logout}
+            as={Button}
+            name='logout'
+            onClick={() => Meteor.logout()}>Log out</Menu.Item>
     </Menu.Menu>
 );
 
@@ -38,7 +57,7 @@ export const Navbar: React.SFC<INavbarProps> = ({ location, currentUser }) => (
             </Menu.Header>
             <Menu.Menu position='right'>
                 <Menu.Item fitted>
-                    {currentUser.username}
+                    <h4 id={testIds.username}>{currentUser.username}</h4>
                     <Avatar {...currentUser.avatar} />
                 </Menu.Item>
             </Menu.Menu>
@@ -48,7 +67,7 @@ export const Navbar: React.SFC<INavbarProps> = ({ location, currentUser }) => (
             <Menu.Item name='post' as={Link} to={'/add/post'} active={location === '/add/post'} />
             {currentUser.isLoggedIn
                 ? (<LogOutMenu />)
-                : (<SignUpMenu location={location}/>)}
+                : (<LoginMenu location={location} />)}
         </Menu>
     </div>
 );
