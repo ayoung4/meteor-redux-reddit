@@ -11,7 +11,7 @@ export interface IPostProps {
 }
 
 export const Post: React.SFC<IPostProps> = ({ _id, title = '', text = '', commentCount = 0, created }) => (
-    <Segment key={_id} stacked padded >
+    <Segment className='post' key={_id} stacked padded >
         <Header as={Link} to={`/post/${_id}`}>{title}</Header>
         <br />
         <br />

@@ -62,12 +62,12 @@ export module Providers {
 
     const AddPostFormSchema = new SimpleSchema({
         text: {
-            max: 140,
+            max: 280,
             min: 5,
             type: String,
         },
         title: {
-            max: 40,
+            max: 140,
             min: 5,
             type: String,
         },

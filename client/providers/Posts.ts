@@ -7,10 +7,11 @@ import { Selectors } from 'Data/collections/selectors';
 
 export module Providers {
 
-    const mapStateToAllPostsIds = (state: IStoreState) => {
+    const mapStateToAllPostsIds = (state: IStoreState, ...props) => {
         const posts = state.mongo.collections.posts;
         return {
             postIds: _.map(posts, ({ _id }) => _id),
+            ...props,
         };
     };
 
@@ -38,9 +39,12 @@ export module Providers {
         };
     };
 
-    const subscribeToAllPosts = () => {
+    const subscribeToAllPosts = (props) => {
         const ready = Meteor.subscribe('posts.all').ready();
-        return { ready };
+        return { 
+            ready,
+            ...props,
+        };
     };
 
     const subscribeToPostById = ({ postId, ...props }) => {
@@ -48,8 +52,8 @@ export module Providers {
         const commentsReady = Meteor.subscribe('comments.by-post-id', { postId }).ready();
         return {
             postId,
-            ...props,
             ready: postsReady && commentsReady,
+            ...props,
         };
     };
 
@@ -59,8 +63,8 @@ export module Providers {
             Meteor.subscribe('comments.by-post-id', { postId }));
         return {
             postIds,
-            ...props,
             ready: postsReady && commentsReady,
+            ...props,
         };
     };
 

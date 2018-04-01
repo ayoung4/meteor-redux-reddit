@@ -15,7 +15,10 @@ export module Providers {
 
     const subscribeToCurrentUser = (props) => {
         const ready = Meteor.subscribe('users.logged-in').ready();
-        return { ready, ...props };
+        return { 
+            ready, 
+            ...props,
+        };
     };
 
     export const withIsLoggedIn = connect(mapStateToIsLoggedIn);
