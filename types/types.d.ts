@@ -1,4 +1,4 @@
-import { RouterState } from 'react-router-redux';
+// import { RouterState } from 'react-router-redux';
 
 declare interface IPost {
     _id: string;
@@ -71,16 +71,19 @@ declare interface ICurrentUserState {
     username: string;
 }
 
-declare interface IRouterState extends RouterState {
+declare interface IRouterState {
     hash: string;
     pathname: string;
     search;
+    location: {
+        path: string;
+    };
 }
 
 declare interface ICollectionsState {
-    comments?: IComment[];
-    posts?: IPost[];
-    users?: IUser[];
+    comments: IComment[];
+    posts: IPost[];
+    users: IUser[];
 }
 
 declare interface IStoreState {

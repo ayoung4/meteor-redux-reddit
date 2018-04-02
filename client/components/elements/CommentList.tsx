@@ -10,8 +10,6 @@ export interface IEvent {
 }
 
 export interface ICommentListProps {
-    postId: string;
-    ready: boolean;
     comments: IComment[];
 }
 

@@ -8,10 +8,16 @@ import { Providers as LoadingProviders } from 'Providers/Loading';
 
 const isLoading = ({ ready }) => !ready;
 
-const enhance = compose<ICommentListProps, { postId: string }>(
+interface IProps {
+    ready: boolean;
+    postId: string;
+    comments: IComment[];
+}
+
+const enhance = compose<IProps, { postId: string }>(
     Providers.withCommentsByPostId,
     Providers.withCommentsByPostIdSubscription,
-    LoadingProviders.withLoadingSegment<ICommentListProps>(isLoading),
+    LoadingProviders.withLoadingSegment<IProps>(isLoading),
 );
 
-export const CommentListContainer = enhance(CommentList);
+export const CommentListContainer = enhance(({ comments }) => CommentList({ comments }));

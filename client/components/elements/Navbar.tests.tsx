@@ -7,7 +7,7 @@ import { INavbarProps, Navbar, testIds } from './Navbar';
 
 enzyme.configure({ adapter: new Adapter() });
 
-describe('Navbar Presentation', () => {
+describe('Navbar Presentation', function () {
 
     it('navbar renders logged in state', function () {
 
