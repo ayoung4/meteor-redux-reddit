@@ -1,5 +1,4 @@
 import * as _ from 'lodash';
-import { IColor } from 'types';
 
 export module LocalStorage {
 

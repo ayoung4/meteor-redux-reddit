@@ -1,4 +1,3 @@
-import createHistory from 'history/createBrowserHistory';
 import * as React from 'react';
 import { Route } from 'react-router-dom';
 import { ConnectedRouter, routerMiddleware, routerReducer } from 'react-router-redux';
@@ -14,7 +13,7 @@ import { SignUp } from 'Scenes/SignUp';
 
 import { Providers } from 'Providers/CurrentUser';
 
-const history = createHistory();
+import { history } from 'Client/Store';
 
 export const App = Providers.withCurrentUserSubscription(() => (
     <ConnectedRouter history={history}>

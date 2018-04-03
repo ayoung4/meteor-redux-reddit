@@ -20,3 +20,4 @@ meteortesting:mocha
 accounts-base
 accounts-password
 react-meteor-data
+deanius:promise

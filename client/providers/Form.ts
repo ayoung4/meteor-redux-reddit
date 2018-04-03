@@ -1,8 +1,11 @@
 import { Utils } from 'Client/Utils';
+import { addPost } from 'Data/collections/actions';
+import { login, signup } from 'Data/currentUser/actions';
+import { transition } from 'Data/router/actions';
 import * as _ from 'lodash';
+import { connect } from 'react-redux';
 import { reduxForm, SubmissionError } from 'redux-form';
 import SimpleSchema from 'simpl-schema';
-import { ICredentials } from 'types';
 
 export module Providers {
 
@@ -20,7 +23,22 @@ export module Providers {
 
     export const withLoginForm = reduxForm<ICredentials, ICredentials>({
         form: 'login',
-        onSubmit: async ({ username, password }) => await Utils.loginWithPassword({ username, password }),
+        onSubmit: async ({ password, username }, dispatch) => {
+            try {
+                await dispatch(login({ 
+                    password, 
+                    redirect: true,
+                    username,
+                }));
+            } catch (e) {
+                throw new SubmissionError({
+                    _error: e.reason || 'Login failed',
+                });
+            }
+        },
+        onSubmitSuccess: (result, dispatch) => {
+            dispatch(transition({ pathname: '/' }));
+        },
         validate: Utils.formValidator(CredentialsSchema),
     });
 
@@ -41,12 +59,17 @@ export module Providers {
 
     export const withSignUpForm = reduxForm<ISignUpFormData, ISignUpFormData>({
         form: 'sign-up',
-        onSubmit: async ({ username, password }) => {
+        onSubmit: async ({ password, username }: ICredentials, dispatch) => {
             try {
-                await Utils.createUser({ username, password });
-            } catch (err) {
-                throw new SubmissionError(err);
+                await dispatch(signup({ password, username }));
+            } catch (e) {
+                throw new SubmissionError({
+                    _error: e.reason || 'Login failed',
+                });
             }
+        },
+        onSubmitSuccess: (result, dispatch) => {
+            dispatch(transition({ pathname: '/' }));
         },
         validate: ({ password, repeatPassword, username }) => {
             const errs = validateSignUpData({ password, repeatPassword, username });
@@ -80,16 +103,18 @@ export module Providers {
 
     export const withAddPostForm = reduxForm<IAddPostFormData>({
         form: 'add-post',
-        onSubmit: ({ text, title }) => new Promise((resolve, reject) => {
-            Meteor.call('posts.insert', text, title, (err, resp) => {
-                const success = !err && !!resp;
-                if (success) {
-                    resolve(resp);
-                } else {
-                    reject(new SubmissionError(err));
-                }
-            });
-        }),
+        onSubmit: async ({ text, title }, dispatch) => {
+            try {
+                await dispatch(addPost({ text, title } as { text: string, title: string; }));
+            } catch (e) {
+                throw new SubmissionError({
+                    _error: e.reason || 'Adding Post Failed',
+                });
+            }
+        },
+        onSubmitSuccess: (result, dispatch) => {
+            dispatch(transition({ pathname: '/' }));
+        },
         validate: Utils.formValidator(AddPostFormSchema),
     });
 

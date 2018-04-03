@@ -1,3 +1,4 @@
+import { push } from 'react-router-redux';
 import { minimongoActionTypes } from './constants';
 
 export const syncCollection = <T = any>(collection: Mongo.Collection<T>) => ({
@@ -7,3 +8,6 @@ export const syncCollection = <T = any>(collection: Mongo.Collection<T>) => ({
     },
     type: minimongoActionTypes.SET_MONGO_COLLECTION,
 });
+
+export const addPost = ({ title, text }: { title: string; text: string; }) =>
+    async (dispatch) => Meteor.callPromise('posts.insert', text, title);

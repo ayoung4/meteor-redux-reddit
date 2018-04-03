@@ -1,8 +1,11 @@
 import { routerMiddleware, routerReducer } from 'react-router-redux';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
+import handleTransitions from 'redux-history-transitions';
 import { createLogger } from 'redux-logger';
-import thunkMiddleware from 'redux-thunk';
+import thunk from 'redux-thunk';
+
+import createHistory from 'history/createBrowserHistory';
 
 import { Comments } from 'Lib/Comments';
 import { Posts } from 'Lib/Posts';
@@ -18,10 +21,11 @@ const rootReducer = combineReducers<IStoreState>({
     mongo: mongoReducer,
     router: routerReducer,
 });
+const middleWare = applyMiddleware(thunk, createLogger());
 
-const middleWare = applyMiddleware(thunkMiddleware, createLogger());
-
-const reduxStore = createStore(rootReducer, middleWare);
+export const history = createHistory();
+const enhancer = handleTransitions(history);
+const reduxStore = createStore(rootReducer, middleWare, enhancer);
 
 Minimongo.connectCollection(Meteor.users, reduxStore);
 Minimongo.connectCollection(Posts.collection, reduxStore);

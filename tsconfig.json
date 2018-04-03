@@ -6,7 +6,7 @@
       "es2015"
     ],
     "types": [
-      "types/types",
+      "types/types"
     ],
     "experimentalDecorators": true,
     "sourceMap": true,
@@ -28,5 +28,17 @@
       "Data/*": ["client/data/*"],
       "Services/*": ["client/services/*"]
     }
-  }
+  },
+  "include": [
+    "client",
+    "server",
+    "lib"
+  ],
+  "exclude": [
+    "coverage",
+    "stories",
+    "node_modules",
+    ".meteor",
+    ".storybook"
+  ]
 }
