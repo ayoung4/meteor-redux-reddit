@@ -19,7 +19,7 @@ jobs:
             echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
             echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
             nvm run node --version
-      -run:
+      - run:
           name: check node version and install puppeteer
           command: |
             node -v
