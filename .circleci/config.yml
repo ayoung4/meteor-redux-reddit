@@ -1,0 +1,52 @@
+version: 2
+jobs:
+  build:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run:
+        name: Install node@8.1.4
+          command: |
+            npm -v
+            set +e             
+            curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.5/install.sh | bash
+            export NVM_DIR="/opt/circleci/.nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            nvm install v8.1.4
+            nvm alias default v8.1.4
+            # Each step uses the same `$BASH_ENV`, so need to modify it
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo "[ -s \"$NVM_DIR/nvm.sh\" ] && . \"$NVM_DIR/nvm.sh\"" >> $BASH_ENV
+            nvm run node --version
+      -run:
+        name: check node version and install puppeteer
+          command: |
+            node -v
+            npm -v
+            npm install npm@latest -g
+            nvm run node --version
+            npm install puppeteer mocha chai
+      - run:
+        name: build docker image
+          command: docker build --build-arg TOOL_NODE_FLAGS="--max-old-space-size=2048" -t creddditregistry.azurecr.io/staging:$CIRCLE_BUILD_NUM .
+      - run:
+          name: start container 
+          command: |
+            docker run -d --name "my-test" -e "MONGO_URL=$MONGO_URL" -p 3000:3000 creddditregistry.azurecr.io/staging:$CIRCLE_BUILD_NUM
+      - run:
+          name: check container is running 
+          command: |
+            sleep 20
+            docker logs my-test
+            sleep 10
+      - run:
+          name: push image to azure 
+          command: |
+             docker tag creddditregistry.azurecr.io/staging:$CIRCLE_BUILD_NUM codenaturallycontainerregistry.azurecr.io/staging:latest
+             docker login creddditregistry.azurecr.io --username $AZURE_CR_USERNAME --password $AZURE_CR_PASSWORD
+             docker push creddditregistry.azurecr.io/staging:$CIRCLE_BUILD_NUM
+             docker push creddditregistry.azurecr.io/staging:latest
+      
+
+
