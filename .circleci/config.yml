@@ -43,7 +43,7 @@ jobs:
       - run:
           name: push image to azure 
           command: |
-             docker tag creddditregistry.azurecr.io/staging:$CIRCLE_BUILD_NUM codenaturallycontainerregistry.azurecr.io/staging:latest
+             docker tag creddditregistry.azurecr.io/staging:$CIRCLE_BUILD_NUM creddditregistry.azurecr.io/staging:latest
              docker login creddditregistry.azurecr.io --username $AZURE_CR_USERNAME --password $AZURE_CR_PASSWORD
              docker push creddditregistry.azurecr.io/staging:$CIRCLE_BUILD_NUM
              docker push creddditregistry.azurecr.io/staging:latest
