@@ -1,4 +1,3 @@
-import { push } from 'react-router-redux';
 import { minimongoActionTypes } from './constants';
 
 export const syncCollection = <T = any>(collection: Mongo.Collection<T>) => ({

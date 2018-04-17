@@ -1,6 +1,5 @@
 import * as _ from 'lodash';
 import { Accounts } from 'meteor/accounts-base';
-import * as Promise from 'promise';
 import { Reducer } from 'redux';
 import SimpleSchema from 'simpl-schema';
 
@@ -44,8 +43,7 @@ export module Utils {
         new Promise<IAccountsResponse>((resolve, reject) => {
 
             Meteor.loginWithPassword(username, password, (err, resp) => {
-                const success = !err && !!resp;
-                if (success) {
+                if (!err) {
                     resolve(resp);
                 }
                 reject(err);

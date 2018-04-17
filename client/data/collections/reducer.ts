@@ -1,5 +1,4 @@
 import { Utils } from 'Client/Utils';
-import { combineReducers } from 'redux';
 
 import { minimongoActionTypes } from './constants';
 
@@ -18,7 +17,3 @@ export const collectionReducer = Utils.reducerOf<ICollectionsState, minimongoAct
         }),
     },
 );
-
-export const mongoReducer = combineReducers({
-    collections: collectionReducer,
-});

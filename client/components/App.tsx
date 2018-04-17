@@ -22,7 +22,7 @@ export const App = Providers.withCurrentUserSubscription(() => (
             <Route exact path='/' component={Home} />
             <Route path='/login' component={Login} />
             <Route path='/sign-up' component={SignUp} />
-            <Route path='/post/:id' component={PostDetail} />
+            <Route path='/post/:postId' component={PostDetail} />
             <Route path='/add/post' component={AddPost} />
         </Container>
     </ConnectedRouter>

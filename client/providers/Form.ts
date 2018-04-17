@@ -1,6 +1,6 @@
 import { Utils } from 'Client/Utils';
 import { addPost } from 'Data/collections/actions';
-import { login, signup } from 'Data/currentUser/actions';
+import { login, signup, startlogin } from 'Data/currentUser/actions';
 import { transition } from 'Data/router/actions';
 import * as _ from 'lodash';
 import { connect } from 'react-redux';
@@ -24,20 +24,20 @@ export module Providers {
     export const withLoginForm = reduxForm<ICredentials, ICredentials>({
         form: 'login',
         onSubmit: async ({ password, username }, dispatch) => {
-            try {
-                await dispatch(login({ 
-                    password, 
-                    redirect: true,
-                    username,
-                }));
-            } catch (e) {
-                throw new SubmissionError({
-                    _error: e.reason || 'Login failed',
-                });
-            }
+            dispatch(startlogin({
+                password,
+                username,
+            }));
+            // try {
+            //     await 
+            // } catch (e) {
+            //     throw new SubmissionError({
+            //         _error: e.reason || 'Login failed',
+            //     });
+            // }
         },
         onSubmitSuccess: (result, dispatch) => {
-            dispatch(transition({ pathname: '/' }));
+            // dispatch(transition({ pathname: '/' }));
         },
         validate: Utils.formValidator(CredentialsSchema),
     });
@@ -61,16 +61,17 @@ export module Providers {
         form: 'sign-up',
         onSubmit: async ({ password, username }: ICredentials, dispatch) => {
             try {
-                await dispatch(signup({ password, username }));
+                const a = await dispatch(signup({ password, username }));
+                console.log(a);
             } catch (e) {
                 throw new SubmissionError({
                     _error: e.reason || 'Login failed',
                 });
             }
         },
-        onSubmitSuccess: (result, dispatch) => {
-            dispatch(transition({ pathname: '/' }));
-        },
+        // onSubmitSuccess: (result, dispatch) => {
+        //     dispatch(transition({ pathname: '/' }));
+        // },
         validate: ({ password, repeatPassword, username }) => {
             const errs = validateSignUpData({ password, repeatPassword, username });
             const hasErrs = _.keys(errs).length > 0;

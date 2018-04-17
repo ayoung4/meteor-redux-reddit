@@ -96,3 +96,10 @@ declare interface IStoreState {
     };
 }
 
+declare interface ISubscriptionsState {
+    [subName: string]: {
+        handle: Meteor.SubscriptionHandle;
+        computation: Tracker.Computation;
+        ready: boolean;
+    };
+}

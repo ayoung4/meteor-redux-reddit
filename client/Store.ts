@@ -1,8 +1,9 @@
 import { routerMiddleware, routerReducer } from 'react-router-redux';
-import { applyMiddleware, combineReducers, createStore } from 'redux';
+import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import { reducer as formReducer } from 'redux-form';
 import handleTransitions from 'redux-history-transitions';
 import { createLogger } from 'redux-logger';
+import { combineEpics, createEpicMiddleware } from 'redux-observable';
 import thunk from 'redux-thunk';
 
 import createHistory from 'history/createBrowserHistory';
@@ -10,10 +11,13 @@ import createHistory from 'history/createBrowserHistory';
 import { Comments } from 'Lib/Comments';
 import { Posts } from 'Lib/Posts';
 
-import { mongoReducer } from 'Data/collections/reducer';
-import { currentUserReducer } from 'Data/currentUser/reducer'; 
+import { currentUserReducer } from 'Data/currentUser/reducer';
+import { mongoReducer } from 'Data/mongoReducer';
 
-import { Minimongo } from 'Services/Minimongo'; 
+import { LoginEpic } from './epics/LoginEpic';
+import { SignUpEpic } from './epics/SignUpEpic';
+
+import { Minimongo } from 'Services/Minimongo';
 
 const rootReducer = combineReducers<IStoreState>({
     currentUser: currentUserReducer,
@@ -21,11 +25,21 @@ const rootReducer = combineReducers<IStoreState>({
     mongo: mongoReducer,
     router: routerReducer,
 });
-const middleWare = applyMiddleware(thunk, createLogger());
+
+const rootEpic = combineEpics(LoginEpic);
+
+const middleWare = applyMiddleware(thunk, createLogger(), createEpicMiddleware(rootEpic));
 
 export const history = createHistory();
-const enhancer = handleTransitions(history);
-const reduxStore = createStore(rootReducer, middleWare, enhancer);
+
+const transitions = handleTransitions(history);
+
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const reduxStore = createStore(rootReducer, undefined, composeEnhancers(
+    middleWare,
+    transitions,
+));
 
 Minimongo.connectCollection(Meteor.users, reduxStore);
 Minimongo.connectCollection(Posts.collection, reduxStore);

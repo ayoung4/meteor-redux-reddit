@@ -22,3 +22,11 @@ export const signup = ({ password, username }: ICredentials) =>
 
 export const login = ({ password, username }: ICredentials) =>
     async () => await Utils.loginWithPassword({ password, username });
+
+export const startlogin = ({ password, username }: ICredentials) => ({
+    payload: {
+        password,
+        username,
+    },
+    type: currentUserActionTypes.LOG_IN,
+});

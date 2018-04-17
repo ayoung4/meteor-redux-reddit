@@ -24,6 +24,7 @@
       "Middleware/*": ["client/middleware/*"],
       "Lib/*": ["lib/*"],
       "Client/*": ["client/*"],
+      "Server/*": ["server/*"],
       "Providers/*": ["client/providers/*"],
       "Data/*": ["client/data/*"],
       "Services/*": ["client/services/*"]

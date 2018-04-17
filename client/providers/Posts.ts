@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { withTracker } from 'meteor/react-meteor-data';
 
 import { Selectors } from 'Data/collections/selectors';
+import { AllPosts, PostsById, PostsByIds } from 'Lib/publications';
 
 export module Providers {
 
@@ -40,15 +41,15 @@ export module Providers {
     };
 
     const subscribeToAllPosts = (props) => {
-        const ready = Meteor.subscribe('posts.all').ready();
-        return { 
+        const ready = AllPosts.subscribe({}).ready();
+        return {
             ready,
             ...props,
         };
     };
 
     const subscribeToPostById = ({ postId, ...props }) => {
-        const postsReady = Meteor.subscribe('posts.by-id', { _id: postId }).ready();
+        const postsReady = PostsById.subscribe({ _id: postId }).ready();
         const commentsReady = Meteor.subscribe('comments.by-post-id', { postId }).ready();
         return {
             postId,
@@ -58,7 +59,7 @@ export module Providers {
     };
 
     const subscribeToPostsByIds = ({ postIds, ...props }) => {
-        const postsReady = Meteor.subscribe('posts.by-ids', { postIds }).ready();
+        const postsReady = PostsByIds.subscribe({ postIds }).ready();
         const commentsReady = _.map(postIds, (postId) =>
             Meteor.subscribe('comments.by-post-id', { postId }));
         return {
@@ -69,11 +70,11 @@ export module Providers {
     };
 
     export const withAllPostIds = connect(mapStateToAllPostsIds);
-    
+
     export const withPostById = connect(mapStateToPostById);
-    
+
     export const withPostsByIds = connect(mapStateToPostsByIds);
-    
+
     export const withAllPostsSubscriptions = withTracker(subscribeToAllPosts);
 
     export const withPostByIdSubscription = withTracker(subscribeToPostById);
